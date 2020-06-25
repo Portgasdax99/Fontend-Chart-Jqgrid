@@ -1,0 +1,46 @@
+<div id="canvas-holder" style="width:40%">
+    <canvas id="chart-area"></canvas>
+</div>
+<script>
+    var view_DA = JSON.parse('@DATA_QUERIED');
+    var duyanh_lab = [];
+    var duyanh_data = [];
+    for (var i = 0; i < view_DA.length; i++) { duyanh_lab.push(view_DA[i].ZONE_NAME); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data.push(view_DA[i].ZONE_VALUE); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data.push(view_DA[i].ZONE_); };
+    var config = {
+        type: 'pie',
+        draw: function(){
+            this.scale.endPoint = this.options.endPoint;
+            Chart.type.pie.prototype.draw.apply(this,arguments);
+        },
+        data: {
+            datasets: [{
+                data: duyanh_data,
+                backgroundColor: [
+                'dark khaki',
+                'khaki',
+                'olive',
+                'yellow',
+                'yellow green',
+                'dark olive green',
+                'olive drab',
+                'lawn green',
+
+
+                ],
+                label: 'Dataset 1'
+            }],
+            labels: duyanh_lab
+        },
+        options: {
+            responsive: true
+        }
+    };
+    
+    $(document).ready(function () {
+        var ctx = document.getElementById('chart-area').getContext('2d');
+        window.myPie = new Chart(ctx, config, {endPoint: 200});
+    });
+
+</script>

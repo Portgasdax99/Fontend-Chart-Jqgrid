@@ -1,0 +1,44 @@
+<div id="canvas-holder" style="width:40%">
+    <canvas id="chart-area"></canvas>
+</div>
+<script>
+    var view_DA = JSON.parse('@DATA_QUERIED');
+    var duyanh_lab = [];
+    var duyanh_data = [];
+    for (var i = 0; i < view_DA.length; i++) { duyanh_lab.push(view_DA[i].ZONE_NAME); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data.push(view_DA[i].ZONE_VALUE); };
+
+    var config = {
+        type: 'doughnut',
+        draw: function(){
+            this.scale.endPoint = this.options.endPoint;
+            Chart.type.doughnut.prototype.draw.apply(this,arguments);
+        },
+        data: {
+            datasets: [{
+                data: duyanh_data,
+                backgroundColor: [
+                    '#f48600',
+                    '#f9ebc2',
+                    '#d1a325',
+                    '#dba041',
+                    '#e2a01b',
+                    '#fc9e5f',
+                    '#c67745',
+                    '#ba7f1a',
+                    '#fc620f',
+                ],
+                label: 'Dataset '
+            }],
+            labels: duyanh_lab
+        },
+        options: {
+            responsive: true
+        }
+    };
+   
+    $(document).ready(function () {
+        var ctx = document.getElementById('chart-area').getContext('2d');
+        window.myDoughnut = new Chart(ctx, config,{endPoint: 200});
+    });
+</script>

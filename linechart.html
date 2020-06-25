@@ -1,0 +1,38 @@
+<div id="canvas-holder" style="width:40%">
+    <canvas id="canvas"></canvas>
+</div>
+<script>
+    var view_DA = JSON.parse('@DATA_QUERIED');
+    var duyanh_lab = [];
+    var duyanh_data = [];
+    for (var i = 0; i < view_DA.length; i++) { duyanh_lab.push(view_DA[i].ZONE_NAME); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data.push(view_DA[i].ZONE_VALUE); };
+    var config = {
+        type: 'line',
+        data: {
+            labels: duyanh_lab,
+            datasets: [{
+                label: 'hihi',
+                backgroundColor:[
+                                'olive',
+                                'yellow',
+                                'yellow green',
+                                'dark olive green',
+                                ],
+                borderColor: 'red',
+                data: [
+                   duyanh_data
+                ],
+                fill: false,
+            }]
+        },
+        options: {
+            responsive: true,
+        }
+    };
+
+    $(document).ready(function () {
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myLine = new Chart(ctx, config);
+    });
+</script>

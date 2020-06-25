@@ -1,0 +1,72 @@
+<table id="example_2" class="display" width="100%"></table>
+<script>
+    $(document).ready(function () {
+        $("#ControlTemplateCH-2").css({ 'margin': 10 });
+        var data_2 = JSON.parse('@DATA_QUERIED');
+        var groupColumn = 2;
+        var keys = Object.keys(data_2[0]);
+        var columns = [];
+        for (var k in keys) {
+            columns.push({
+                'sortable': false,
+                'title': keys[k],
+                'data': keys[k],
+                'targets': k,
+                'width': 60
+            });
+        }
+        $('#example_2').DataTable({
+            'data': data_2,
+            'columns': columns,
+            'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            'paging': true,
+            searching: true,
+            'order': [[groupColumn, 'asc']],
+            'displayLength': 10,
+            'columnDefs': [
+                { "visible": false, 'targets': groupColumn }
+            ],
+            'drawCallback': function (settings) {
+                var api = this.api();
+                var columns = api.columns({ page: 'current' }).nodes();
+                var last = null;
+                var title = $('#example thead th').eq($(this).index()).text();
+
+
+                api.column(groupColumn, { page: 'current' }).data().each(function () {
+                    if (last !== group) {
+                        $(columns).eq(i).before(
+                            <tr class="group" style="background-color:#AA0000">
+                                <td colspan="5">
+                                    <b style="color:white">' + group + '</b>
+                                </td>
+                            </tr>
+                        );
+                        last = group;
+                    }
+                });
+            }
+        });
+    });
+</script>
+
+<!-- 
+<script>
+    $('#example thead th').each(function () {
+        var title = $('#example thead th').eq($(this).index()).text();
+        $(this).html('&lt;input type=&quot;text&quot; placeholder=&quot;Search ' + title + '&quot; /&gt;');
+    });
+    example.columns().eq(0).each(function (colIdx) {
+        $('input', example.column(colIdx).header()).on('keyup change', function () {
+            example
+                .column(colIdx)
+                .search(this.value)
+                .draw();
+        });
+
+        $('input', example.column(colIdx).header()).on('click', function (e) {
+            e.stopPropagation();
+        });
+    });
+
+</script> -->

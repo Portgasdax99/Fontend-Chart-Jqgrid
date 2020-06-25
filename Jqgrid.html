@@ -1,0 +1,74 @@
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>Ví dụ mẫu</title>
+	<link href="http://sdk.homeos.vn:6868/plugins/Guriddo_jqGrid/css/ui.jqgrid.css" rel="stylesheet" />
+	<link href="http://sdk.homeos.vn:6868/plugins/jqGrid/jquery-ui(flat_Up).css" rel="stylesheet" />
+	<script src="js/jQuery/jquery-3.1.1.min.js"></script>
+	<script src="http://sdk.homeos.vn:6868/plugins/jqGrid/grid.locale-vi.js"></script>
+	<script src="http://sdk.homeos.vn:6868/plugins/Guriddo_jqGrid/src/jquery.jqGrid.js"></script>
+
+
+</head>
+
+<body>
+	<table id="list47"></table>
+	<div id="plist47"></div>
+
+	<script>
+
+		var mydata = [
+			{ id: "1", invdate: "2010-05-24", name: "test", note: "note", tax: "10.00", total: "2111.00" },
+			{ id: "2", invdate: "2010-05-25", name: "test2", note: "note2", tax: "20.00", total: "320.00" },
+			{ id: "3", invdate: "2007-09-01", name: "test3", note: "note3", tax: "30.00", total: "430.00" },
+			{ id: "4", invdate: "2007-10-04", name: "test", note: "note", tax: "10.00", total: "210.00" },
+			{ id: "5", invdate: "2007-10-05", name: "test2", note: "note2", tax: "20.00", total: "320.00" },
+			{ id: "6", invdate: "2007-09-06", name: "test3", note: "note3", tax: "30.00", total: "430.00" },
+			{ id: "7", invdate: "2007-10-04", name: "test", note: "note", tax: "10.00", total: "210.00" },
+			{ id: "8", invdate: "2007-10-03", name: "test2", note: "note2", amount: "300.00", tax: "21.00", total: "320.00" },
+			{ id: "9", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
+			{ id: "11", invdate: "2007-10-01", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+
+		];
+
+		$(document).ready(function () {
+
+			jQuery("#list47").jqGrid({
+				data: mydata,
+				rowNum: 10,
+				rowList: [10, 20, 30],
+				autowidth: false,
+				width: 600,
+				rownumbers: true,
+				pager: '#pager',
+				sortname: 'id',
+				viewrecords: true,
+				sortorder: "asc",
+				colNames: ['STT', 'Ngày tháng', 'Client', 'Amount', 'Tax', 'Total', 'Notes'],
+				colModel: [
+					{ name: 'id', index: 'id', width: 60, sorttype: "int" },
+					{ name: 'invdate', index: 'invdate', width: 90, sorttype: "date", formatter: "date" },
+					{ name: 'name', index: 'name', width: 100, editable: true },
+					{ name: 'amount', index: 'amount', width: 80, align: "right", sorttype: "float", formatter: "number", editable: true },
+					{ name: 'tax', index: 'tax', width: 80, align: "right", sorttype: "float", editable: true },
+					{ name: 'total', index: 'total', width: 80, align: "right", sorttype: "float" },
+					{ name: 'note', index: 'note', width: 150, sortable: false }
+				],
+				pager: "#plist47",
+				viewrecords: true,
+				sortname: 'name',
+				grouping: true,
+				groupingView: {
+					groupField: ['name'],
+					groupColumnShow: [false]
+				},
+				caption: "Đây là ví dụ mẫu về Grid"
+			});
+
+		});
+		
+	</script>
+</body>
+
+</html>

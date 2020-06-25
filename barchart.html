@@ -1,0 +1,41 @@
+<div id="container" style="height:50vh; width:30vw">
+	<canvas id="canvas"></canvas>
+</div>
+<script>
+	var view_DA2 = JSON.parse('@DATA_QUERIED');
+	var duyanh_lab = [];
+	var duyanh_data = [];
+	for (var i = 0; i < view_DA2.length; i++) { duyanh_lab.push(view_DA2[i].ZONE_NAME); };
+	for (var i = 0; i < view_DA2.length; i++) { duyanh_data.push(view_DA2[i].ZONE_VALUE); };
+	var barChartData = {
+
+		labels: duyanh_lab,
+		datasets: [{
+			label: 'Thời gian truy cập',
+			backgroundColor: '#FF6384',
+			borderColor: '#FF6384',
+			borderWidth: 2,
+			hoverBackgroundColor: '#FF6384',
+			hoverBorderColor: '#FF6384',
+			data: duyanh_data,
+		}],
+	};
+
+	$(document).ready(function () {
+		var ctx = document.getElementById('canvas').getContext('2d');
+		window.myBar = new Chart(ctx, {
+			type: 'bar',
+			data: barChartData,
+			options: {
+				responsive: true,
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Chart.js Bar Chart'
+				}
+			}
+		});
+	});
+</script>

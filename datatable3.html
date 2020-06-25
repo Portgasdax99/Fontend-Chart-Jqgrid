@@ -1,0 +1,36 @@
+<table id="display" class="display" wcellspacing="0" width="100%" height="50vh"
+    style="text-align: center; display: flexbox;" data-search="true"></table>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"></script>
+<script>
+
+    $(document).ready(function () {
+        var data = JSON.parse('@DATA_QUERIED');
+        var keys = Object.keys(data[0]);
+        var columns = [];
+        for (var k in keys) {
+            columns.push({
+
+                'title': keys[k],
+                'data': keys[k],
+                'targets': k,
+                'width': 60
+            });
+
+
+        }
+        $('#display').DataTable({
+
+            'flex': true,
+            'data': data,
+            'columns': columns,
+            'searching': true,
+            "paging": true,
+            "ordering": true,
+            "info": true
+        });
+
+
+
+    });
+</script>

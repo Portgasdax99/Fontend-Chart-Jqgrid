@@ -1,0 +1,79 @@
+<div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+</div>
+
+<script>
+    var view_DA = JSON.parse('@DATA_QUERIED');
+    var duyanh_lab = [];
+    var duyanh_data = [];
+    var duyanh_data2 = [];
+    for (var i = 0; i < view_DA.length; i++) { duyanh_lab.push(view_DA[i].ZONE_NAME); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data.push(view_DA[i].ZONE_VALUE); };
+    for (var i = 0; i < view_DA.length; i++) { duyanh_data2.push(view_DA[i].LAST_TIME); };
+
+    var barChartData = {
+        labels: duyanh_lab,
+        datasets: [{
+            label: 'Số lần truy cập',
+            backgroundColor: [
+                '#f48600',
+                '#f9ebc2',
+                '#d1a325',
+                '#dba041',
+                '#e2a01b',
+                '#fc9e5f',
+                '#c67745',
+                '#ba7f1a',
+                '#fc620f',
+            ],
+            yAxisID: 'y-axis-1',
+            data: 
+                duyanh_data
+            
+        }, {
+            label: 'Truy cập bao ngày trước',
+            backgroundColor: 'grey',
+            yAxisID: 'y-axis-2',
+            data: 
+                duyanh_data2
+            
+        }]
+
+    };
+    $(document).ready(function () {
+        var ctx = document.getElementById('canvas').getContext('2d');
+        window.myBar = new Chart(ctx, {
+            type: 'bar',
+            data: barChartData,
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Chart.js Bar Chart - Multi Axis'
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: true
+                },
+                scales: {
+                    yAxes: [{
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: 'left',
+                        id: 'y-axis-1',
+                    }, {
+                        type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                        display: true,
+                        position: 'right',
+                        id: 'y-axis-2',
+                        gridLines: {
+                            drawOnChartArea: false
+                        }
+                    }],
+                }
+            }
+        });
+    });
+
+
+</script>

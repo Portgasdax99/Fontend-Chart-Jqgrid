@@ -1,0 +1,107 @@
+<table id="list47"></table>
+<div id="plist47"></div>
+
+<script>
+
+	var mydata = JSON.parse('@DATA_QUERIED'),
+		editSettings = {
+			checkOnUpdate: true,
+			reloadAfterSubmit: false,
+			closeOnEscape: true,
+			savekey: [true, 13],
+			closeAfterEdit: true
+		},
+		addSettings = {
+			checkOnUpdate: true,
+			reloadAfterSubmit: false,
+			savekey: [true, 13],
+			closeOnEscape: true,
+			closeAfterAdd: true
+		},
+		delSettings = {
+			onclickSubmit: function () {
+				var $this = $(this), p = $this.jqGrid("getGridParam"), newPage = p.page;
+
+				if (p.lastpage > 1) {// on the multipage grid reload the grid
+					if (p.reccount === 1 && newPage === p.lastpage) {
+						// if after deliting there are no rows on the current page
+						// which is the last page of the grid
+						newPage--; // go to the previous page
+					}
+					// reload grid to make the row from the next page visable.
+					setTimeout(function () {
+						$this.trigger("reloadGrid", [{ page: newPage }]);
+					}, 50);
+				}
+
+				return true;
+			}
+		},
+		removeTheOptionAll = function (elem) {
+			// We use "value" in the searchoption property of some columns of the colModel.
+			// The option {"": "All"} neams "No filter" and should be displayed only
+			// in the searching toolbar and not in the searching dialog.
+			// So we use dataInit:removeTheOptionAll inside of searchoptions to remove
+			// the option {"": "All"} in case of the searching dialog
+			if (elem != null && typeof elem.id === "string" && elem.id.substr(0, 3) !== "gs_") {
+				// we are NOT in the searching bar
+				$(elem).find("option[value=\"\"]").remove(); // remove "All" option
+			}
+		};
+
+
+	$(document).ready(function () {
+
+		jQuery("#list47").jqGrid({
+			data: mydata,
+			datatype: "local",
+			autowidth: true,
+			height: 'auto',
+			rowNum: 15,
+			rowList: [5, 10, 20],
+			colNames: ['USER_ID', 'USER_NAME', 'LOGIN_NAME', 'PASSWORD', 'DESCRIPTION', 'GROUP_ID', 'EMAIL', 'ACTIVE', 'ORGANIZATION_ID'],
+			colModel: [
+				{ name: 'USER_ID', index: 'USER_ID', width: 100, },
+				{ name: 'USER_NAME', index: 'USER_NAME', width: 140,edittype: "textarea" },
+				{ name: 'LOGIN_NAME', index: 'LOGIN_NAME', width: 140,edittype: "textarea" },
+				{ name: 'PASSWORD', index: 'PASSWORD', width: 140,edittype: "textarea" },
+				{ name: 'DESCRIPTION', index: 'DESCRIPTION', width: 140,edittype: "textarea" },
+				{ name: 'GROUP_ID', index: 'GROUP_ID', width: 140,edittype: "textarea" },
+				{ name: 'EMAIL', index: 'EMAIL', width: 200,edittype: "textarea" },
+				{ name: 'ACTIVE', index: 'ACTIVE', width: 70, sorttype: "float",formatter: "number", editable: true },
+				{ name: 'ORGANIZATION_ID', index: 'RGANIZATION_IDz', width: 140, sorttype: "float",formatter: "number", editable: true }
+			],
+			cmTemplate: {editable: true, searchoptions: {clearSearch: false }},
+			pager: "#plist47",
+			viewrecords: true,
+			sortname: 'USER_ID',
+			gridview: true,
+			grouping: true,
+			rownumbers: true,
+			autoencode: true,
+			viewrecords: true,
+			ignoreCase: true,
+			caption: "Đây là ví dụ mẫu về Grid",
+			ondblClickRow: function (rowid) {
+                    var $this = $(this), selRowId = $this.jqGrid("getGridParam", "selrow");
+                    if (selRowId !== rowid) {
+                        // prevent the row from be unselected on double-click
+                        // the implementation is for "multiselect:false" which we use,
+                        // but one can easy modify the code for "multiselect:true"
+                        $this.jqGrid("setSelection", rowid);
+                    }
+                    $this.jqGrid("editGridRow", rowid, editSettings);
+                }
+		}).jqGrid("navGrid", "#plist47", {}, editSettings, addSettings, delSettings, {
+                multipleSearch: true,
+                overlay: false,
+                onClose: function () {
+                    // if we close the search dialog during the datapicker are opened
+                    // the datepicker will stay opened. To fix this we have to hide
+                    // the div used by datepicker
+                    $("div#ui-datepicker-div.ui-datepicker").hide();
+                }
+            }).jqGrid("filterToolbar", { defaultSearch: "cn" });
+
+	});
+</script>
